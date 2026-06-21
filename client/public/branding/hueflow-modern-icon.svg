@@ -1,0 +1,18 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ribbon" x1="100" y1="434" x2="417" y2="83" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF4D6D"/>
+      <stop offset="0.35" stop-color="#F044C8"/>
+      <stop offset="0.68" stop-color="#675CFF"/>
+      <stop offset="1" stop-color="#18CFE3"/>
+    </linearGradient>
+    <linearGradient id="shoulder" x1="203" y1="115" x2="410" y2="405" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF786B"/>
+      <stop offset="0.48" stop-color="#8760FF"/>
+      <stop offset="1" stop-color="#21D7D2"/>
+    </linearGradient>
+  </defs>
+  <path d="M135 414V105" stroke="url(#ribbon)" stroke-width="88" stroke-linecap="round"/>
+  <path d="M135 278C169 204 226 162 297 162C389 162 449 225 449 322V414" stroke="url(#shoulder)" stroke-width="88" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M137 278C173 218 224 184 288 176" stroke="#FF5D87" stroke-width="29" stroke-linecap="round" opacity="0.9"/>
+</svg>
