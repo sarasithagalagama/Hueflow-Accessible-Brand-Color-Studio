@@ -1,0 +1,31 @@
+<svg width="1200" height="300" viewBox="0 0 1200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ribbon" x1="42" y1="232" x2="258" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF4D6D"/>
+      <stop offset="0.35" stop-color="#F044C8"/>
+      <stop offset="0.68" stop-color="#675CFF"/>
+      <stop offset="1" stop-color="#18CFE3"/>
+    </linearGradient>
+    <linearGradient id="ribbonHighlight" x1="99" y1="70" x2="230" y2="214" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF786B"/>
+      <stop offset="0.48" stop-color="#8760FF"/>
+      <stop offset="1" stop-color="#21D7D2"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(30 16)">
+    <path d="M67 225V72" stroke="url(#ribbon)" stroke-width="46" stroke-linecap="round"/>
+    <path d="M67 157C84 120 113 99 148 99C194 99 224 130 224 178V225" stroke="url(#ribbonHighlight)" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M68 157C86 127 111 110 143 106" stroke="#FF5D87" stroke-width="15" stroke-linecap="round" opacity="0.9"/>
+  </g>
+
+  <g fill="#15161A">
+    <path d="M345 79H379V139C390 127 405 121 423 121C456 121 476 143 476 179V237H442V184C442 162 433 152 416 152C394 152 379 167 379 193V237H345V79Z"/>
+    <path d="M503 125H537V190C537 206 544 214 559 214C577 214 588 201 588 179V125H622V237H589V221C579 234 564 241 545 241C517 241 503 223 503 193V125Z"/>
+    <path d="M645 181C645 146 671 121 708 121C747 121 770 149 767 190H679C682 207 694 216 711 216C725 216 736 212 745 203L762 222C749 235 732 241 709 241C671 241 645 217 645 181ZM679 169H734C732 154 722 146 708 146C693 146 682 154 679 169Z"/>
+    <path d="M800 151H780V125H800V114C800 87 817 72 846 72C856 72 865 74 872 77V102C866 100 861 99 856 99C841 99 834 105 834 118V125H865V151H835V237H800V151Z"/>
+    <path d="M882 79H916V237H882V79Z"/>
+    <path d="M939 181C939 146 966 121 1004 121C1042 121 1069 146 1069 181C1069 216 1042 241 1004 241C966 241 939 216 939 181ZM1035 181C1035 162 1022 149 1004 149C986 149 973 162 973 181C973 200 986 213 1004 213C1022 213 1035 200 1035 181Z"/>
+    <path d="M1073 125H1108L1128 201L1152 125H1182L1206 201L1226 125H1260L1222 237H1189L1167 169L1144 237H1111L1073 125Z" transform="translate(-80 0)"/>
+  </g>
+</svg>
