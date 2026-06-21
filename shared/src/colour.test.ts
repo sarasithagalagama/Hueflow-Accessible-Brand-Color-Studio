@@ -28,7 +28,7 @@ describe("gradient and exports", () => {
   });
 
   it("creates syntactically useful token exports", () => {
-    expect(cssVariables(gradient)).toContain("--gradient-citrus-ledger");
+    expect(cssVariables(gradient)).toContain("--gradient-sunset-glow");
     expect(() => JSON.parse(jsonTokens(gradient))).not.toThrow();
   });
 });

@@ -15,9 +15,9 @@ test("visitor edits a gradient, copies CSS, and retains the draft", async ({ pag
 
 test("visitor opens a preset in Studio", async ({ page }) => {
   await page.goto("/explore");
-  await page.getByLabel("Open Citrus Ledger in Studio").click();
+  await page.getByLabel("Open Sunset Glow in Studio").click();
   await expect(page).toHaveURL(/\/studio/);
-  await expect(page.getByLabel("Gradient name")).toHaveValue("Citrus Ledger");
+  await expect(page.getByLabel("Gradient name")).toHaveValue("Sunset Glow");
 });
 
 test("accessibility workspace reports sampled contrast", async ({ page }) => {

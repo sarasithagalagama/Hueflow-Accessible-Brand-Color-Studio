@@ -28,5 +28,9 @@ export function AppShell() {
       </div>
     </header>
     <main><Outlet /></main>
+    <footer className="site-footer">
+      <p>© 2026 Hueflow. All rights reserved.</p>
+      <p>Designed &amp; Developed by <span>Sarasitha Galagama</span></p>
+    </footer>
   </div>;
 }

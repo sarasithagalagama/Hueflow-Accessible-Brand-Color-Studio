@@ -11,7 +11,7 @@ describe("GradientCanvas", () => {
 
   it("renders the current gradient and preview", () => {
     render(<GradientCanvas />);
-    expect(screen.getByLabelText("Citrus Ledger hero preview")).toBeInTheDocument();
+    expect(screen.getByLabelText("Sunset Glow hero preview")).toBeInTheDocument();
     expect(screen.getByText(/Ideas with/)).toBeInTheDocument();
   });
 

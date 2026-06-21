@@ -1,7 +1,7 @@
 import type { GradientConfig, Preset } from "./types.js";
 
 const paletteData = [
-  ["Citrus Ledger", "linear", 128, ["#FF5C35", "#FFB000", "#F7F06D"], ["bright", "warm"], "optimistic"],
+  ["Sunset Glow", "linear", 128, ["#FF5C35", "#FFB000", "#F7F06D"], ["bright", "warm"], "optimistic"],
   ["Alpine Receipt", "linear", 42, ["#163832", "#55B896", "#DFF5E8"], ["cool", "accessible"], "grounded"],
   ["Night Orchard", "radial", 0, ["#11120F", "#344E41", "#A3B18A"], ["dark", "cool"], "quiet"],
   ["Clay Signal", "linear", 102, ["#7A2E2E", "#D96C4F", "#F2C6A0"], ["warm", "accessible"], "editorial"],
