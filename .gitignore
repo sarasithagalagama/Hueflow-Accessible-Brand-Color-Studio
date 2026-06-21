@@ -8,3 +8,7 @@ test-results/
 *.log
 .DS_Store
 client/public/hueflow-export-*.png
+public/
+.vercel/
+
+.vercel

@@ -1,13 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Meta } from "../components/Meta";
 import { ControlPanel } from "../features/studio/ControlPanel";
 import { GradientCanvas } from "../features/studio/GradientCanvas";
 import { PreviewTabs } from "../features/studio/PreviewTabs";
 import { StudioToolbar } from "../features/studio/StudioToolbar";
+import { SaveToProjectModal } from "../features/studio/SaveToProjectModal";
+import { Toast } from "../components/Toast";
 import { useStudioStore } from "../stores/studioStore";
 
 export function StudioPage() {
   const { randomise, undo, redo, isDirty } = useStudioStore();
+  const [saveOpen, setSaveOpen] = useState(false);
+  const [toast, setToast] = useState("");
   useEffect(() => {
     const keydown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement;
@@ -17,6 +21,10 @@ export function StudioPage() {
         event.preventDefault();
         if (event.shiftKey) redo();
         else undo();
+      }
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "s") {
+        event.preventDefault();
+        setSaveOpen(true);
       }
     };
     window.addEventListener("keydown", keydown);
@@ -32,7 +40,7 @@ export function StudioPage() {
   return <>
     <Meta title="Studio" description="Create gradients, test them in real interfaces, and export production-ready colour tokens." />
     <div className="studio-page">
-      <StudioToolbar />
+      <StudioToolbar onSave={() => setSaveOpen(true)} />
       <div className="studio-layout">
         <div className="canvas-workspace">
           <div className="workspace-label"><span>LIVE CANVAS</span><i>{isDirty ? "Draft saved locally" : "Saved"}</i></div>
@@ -42,6 +50,8 @@ export function StudioPage() {
         </div>
         <ControlPanel />
       </div>
+      {saveOpen && <SaveToProjectModal onClose={() => setSaveOpen(false)} onSaved={setToast} />}
+      {toast && <Toast message={toast} />}
     </div>
   </>;
 }

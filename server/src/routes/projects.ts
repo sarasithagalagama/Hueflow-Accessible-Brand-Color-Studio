@@ -19,10 +19,70 @@ const projectView = (project: Record<string, unknown>) => ({
   id: String(project._id), name: project.name, slug: project.slug, description: project.description,
   visibility: project.visibility, tags: project.tags, updatedAt: project.updatedAt
 });
+interface GradientRecord {
+  _id: unknown;
+  project: unknown;
+  name: string;
+  type: string;
+  angle: number;
+  centreX: number;
+  centreY: number;
+  noise: number;
+  blur: number;
+  aspectRatio: string;
+  customRatio: string;
+  stops: Array<{ _id: unknown; name: string; hex: string; position: number; locked: boolean }>;
+  tags?: string[];
+  createdAt: unknown;
+  updatedAt: unknown;
+}
+const gradientView = (gradient: GradientRecord) => ({
+  id: String(gradient._id),
+  projectId: String(gradient.project),
+  name: gradient.name,
+  config: {
+    name: gradient.name,
+    type: gradient.type,
+    angle: gradient.angle,
+    centreX: gradient.centreX,
+    centreY: gradient.centreY,
+    noise: gradient.noise,
+    blur: gradient.blur,
+    aspectRatio: gradient.aspectRatio,
+    customRatio: gradient.customRatio,
+    stops: gradient.stops.map((stop) => ({
+      id: String(stop._id),
+      name: stop.name,
+      hex: stop.hex,
+      position: stop.position,
+      locked: stop.locked
+    }))
+  },
+  tags: gradient.tags ?? [],
+  createdAt: gradient.createdAt,
+  updatedAt: gradient.updatedAt
+});
 
 projectsRouter.get("/", asyncHandler(async (request, response) => {
   const projects = await Project.find({ owner: request.user!.id }).sort({ updatedAt: -1 }).select("name slug description visibility tags updatedAt").limit(100).lean();
-  return sendData(response, projects.map((project) => projectView(project as unknown as Record<string, unknown>)));
+  const projectIds = projects.map((project) => project._id);
+  const gradients = await Gradient.find({ project: { $in: projectIds }, owner: request.user!.id })
+    .sort({ updatedAt: -1 })
+    .select("project name type angle centreX centreY noise blur aspectRatio customRatio stops tags createdAt updatedAt")
+    .lean();
+  const grouped = new Map<string, typeof gradients>();
+  for (const gradient of gradients) {
+    const key = String(gradient.project);
+    grouped.set(key, [...(grouped.get(key) ?? []), gradient]);
+  }
+  return sendData(response, projects.map((project) => {
+    const saved = grouped.get(String(project._id)) ?? [];
+    return {
+      ...projectView(project as unknown as Record<string, unknown>),
+      gradientCount: saved.length,
+      ...(saved[0] ? { previewGradient: gradientView(saved[0] as unknown as GradientRecord).config } : {})
+    };
+  }));
 }));
 
 projectsRouter.post("/", validateBody(projectInputSchema), asyncHandler(async (request, response) => {
@@ -79,7 +139,7 @@ projectsRouter.get("/:projectId/gradients", asyncHandler(async (request, respons
   const projectId = validId(request.params.projectId);
   if (!await Project.exists({ _id: projectId, owner: request.user!.id })) throw new AppError(404, "Project not found");
   const gradients = await Gradient.find({ project: projectId, owner: request.user!.id }).sort({ updatedAt: -1 }).limit(50).lean();
-  return sendData(response, gradients.map((gradient) => ({ ...gradient, id: String(gradient._id), _id: undefined })));
+  return sendData(response, gradients.map((gradient) => gradientView(gradient as unknown as GradientRecord)));
 }));
 
 projectsRouter.post("/:projectId/gradients", validateBody(gradientSchema), asyncHandler(async (request, response) => {
@@ -91,5 +151,5 @@ projectsRouter.post("/:projectId/gradients", validateBody(gradientSchema), async
     stops: stops.map((stop, order) => ({ name: stop.name, hex: stop.hex.toUpperCase(), position: stop.position, locked: stop.locked, order }))
   });
   await Project.updateOne({ _id: projectId }, { $set: { updatedAt: new Date() } });
-  return sendData(response, { id: String(gradient._id), name: gradient.name }, 201, "Gradient saved");
+  return sendData(response, gradientView(gradient.toObject() as unknown as GradientRecord), 201, "Gradient saved");
 }));

@@ -6,6 +6,7 @@ import { StudioPage } from "./pages/StudioPage";
 const ExplorePage = lazy(() => import("./pages/ExplorePage").then((module) => ({ default: module.ExplorePage })));
 const AccessibilityPage = lazy(() => import("./pages/AccessibilityPage").then((module) => ({ default: module.AccessibilityPage })));
 const ProjectsPage = lazy(() => import("./pages/ProjectsPage").then((module) => ({ default: module.ProjectsPage })));
+const ProjectDetailPage = lazy(() => import("./pages/ProjectDetailPage").then((module) => ({ default: module.ProjectDetailPage })));
 const AuthPage = lazy(() => import("./pages/AuthPage").then((module) => ({ default: module.AuthPage })));
 const SharePage = lazy(() => import("./pages/SharePage").then((module) => ({ default: module.SharePage })));
 
@@ -22,6 +23,7 @@ export function App() {
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/accessibility" element={<AccessibilityPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
         <Route path="/signin" element={<AuthPage />} />
         <Route path="/share/:slug" element={<SharePage />} />
         <Route path="*" element={<Navigate to="/studio" replace />} />

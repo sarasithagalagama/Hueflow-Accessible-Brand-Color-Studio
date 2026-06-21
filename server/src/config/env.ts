@@ -17,7 +17,8 @@ const envSchema = z.object({
   JWT_ACCESS_SECRET: z.string().min(32).default("development-only-secret-change-before-production"),
   JWT_ACCESS_EXPIRES_IN: z.string().default("15m"),
   CLIENT_URL: z.string().url().default("http://localhost:5173"),
-  COOKIE_NAME: z.string().min(1).default("hueflow_access")
+  COOKIE_NAME: z.string().min(1).default("hueflow_access"),
+  VERCEL_URL: z.string().optional()
 });
 
 const parsed = envSchema.safeParse(process.env);

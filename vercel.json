@@ -1,0 +1,15 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "express",
+  "buildCommand": "npm run build:vercel",
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/studio", "destination": "/index.html" },
+    { "source": "/explore", "destination": "/index.html" },
+    { "source": "/accessibility", "destination": "/index.html" },
+    { "source": "/projects", "destination": "/index.html" },
+    { "source": "/projects/:path*", "destination": "/index.html" },
+    { "source": "/signin", "destination": "/index.html" },
+    { "source": "/share/:path*", "destination": "/index.html" }
+  ]
+}

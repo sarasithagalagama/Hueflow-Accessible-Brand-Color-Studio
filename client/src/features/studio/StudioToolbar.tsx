@@ -1,10 +1,10 @@
-import { Download, Expand, Redo2, RotateCcw, Shuffle, Undo2 } from "lucide-react";
+import { Download, Expand, Redo2, RotateCcw, Save, Shuffle, Undo2 } from "lucide-react";
 import { useState } from "react";
 import { useStudioStore } from "../../stores/studioStore";
 import { ExportModal } from "./ExportModal";
 import { GradientCanvas } from "./GradientCanvas";
 
-export function StudioToolbar() {
+export function StudioToolbar({ onSave }: { onSave: () => void }) {
   const { config, history, future, randomise, undo, redo, reset, update } = useStudioStore();
   const [exportOpen, setExportOpen] = useState(false);
   const [fullScreen, setFullScreen] = useState(false);
@@ -19,6 +19,7 @@ export function StudioToolbar() {
       </div>
       <div className="toolbar-cluster">
         <button aria-label="Full-screen preview" onClick={() => setFullScreen(true)}><Expand size={16} /><span>Preview</span></button>
+        <button aria-label="Save to project" onClick={onSave}><Save size={16} /><span>Save</span></button>
         <button aria-label="Export" className="button-primary" onClick={() => setExportOpen(true)}><Download size={16} /><span>Export</span></button>
       </div>
     </div>

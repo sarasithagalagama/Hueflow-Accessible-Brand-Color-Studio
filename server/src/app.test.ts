@@ -4,6 +4,7 @@ import request from "supertest";
 import { app } from "./app.js";
 import { connectDatabase, disconnectDatabase } from "./config/database.js";
 import { Project } from "./models/Project.js";
+import { presets } from "@hueflow/shared";
 
 let database: MongoMemoryServer;
 let cookie = "";
@@ -45,6 +46,32 @@ describe("Hueflow API", () => {
     await Project.updateOne({ slug: created.body.data.slug }, { visibility: "public" });
     const publicShare = await request(app).get(`/api/share/${created.body.data.slug}`);
     expect(publicShare.status).toBe(200);
+  });
+
+  it("saves, updates, lists, and duplicates project gradients", async () => {
+    const created = await request(app).post("/api/projects").set("Cookie", cookie).send({ name: "Brand system", description: "Client colours", visibility: "private", tags: ["brand"] });
+    const projectId = created.body.data.id as string;
+    const saved = await request(app).post(`/api/projects/${projectId}/gradients`).set("Cookie", cookie).send({ ...presets[0]!.config, tags: ["hero"] });
+    expect(saved.status).toBe(201);
+    expect(saved.body.data.config.name).toBe("Sunset Glow");
+
+    const listed = await request(app).get(`/api/projects/${projectId}/gradients`).set("Cookie", cookie);
+    expect(listed.body.data).toHaveLength(1);
+    expect(listed.body.data[0].projectId).toBe(projectId);
+
+    const updated = await request(app).patch(`/api/gradients/${saved.body.data.id}`).set("Cookie", cookie).send({ name: "Updated system" });
+    expect(updated.status).toBe(200);
+    expect(updated.body.data.name).toBe("Updated system");
+
+    const projectList = await request(app).get("/api/projects").set("Cookie", cookie);
+    const summary = projectList.body.data.find((project: { id: string }) => project.id === projectId);
+    expect(summary.gradientCount).toBe(1);
+    expect(summary.previewGradient.name).toBe("Updated system");
+
+    const duplicated = await request(app).post(`/api/projects/${projectId}/duplicate`).set("Cookie", cookie);
+    expect(duplicated.status).toBe(201);
+    const duplicateGradients = await request(app).get(`/api/projects/${duplicated.body.data.id}/gradients`).set("Cookie", cookie);
+    expect(duplicateGradients.body.data).toHaveLength(1);
   });
 
   it("serves paginated presets and health", async () => {

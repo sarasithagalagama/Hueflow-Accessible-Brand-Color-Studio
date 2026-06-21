@@ -1,4 +1,4 @@
-import type { ApiResponse, ProjectSummary, UserSummary } from "@hueflow/shared";
+import type { ApiResponse, ProjectSummary, SavedGradient, UserSummary } from "@hueflow/shared";
 
 const API_URL = import.meta.env.VITE_API_URL || "/api";
 
@@ -37,13 +37,20 @@ export const api = {
   register: (body: { name: string; email: string; password: string }) => request<UserSummary>("/auth/register", { method: "POST", body: JSON.stringify(body) }),
   logout: () => request<null>("/auth/logout", { method: "POST" }),
   projects: () => request<ProjectSummary[]>("/projects"),
+  project: (id: string) => request<ProjectSummary>(`/projects/${id}`),
   createProject: (body: { name: string; description: string; visibility: "private" | "public"; tags: string[] }) =>
     request<ProjectSummary>("/projects", { method: "POST", body: JSON.stringify(body) }),
   updateProject: (id: string, body: Partial<ProjectSummary>) =>
     request<ProjectSummary>(`/projects/${id}`, { method: "PATCH", body: JSON.stringify(body) }),
   deleteProject: (id: string) => request<null>(`/projects/${id}`, { method: "DELETE" }),
+  duplicateProject: (id: string) => request<ProjectSummary>(`/projects/${id}/duplicate`, { method: "POST" }),
+  projectGradients: (projectId: string) => request<SavedGradient[]>(`/projects/${projectId}/gradients`),
   saveGradient: (projectId: string, body: unknown) =>
-    request(`/projects/${projectId}/gradients`, { method: "POST", body: JSON.stringify(body) }),
+    request<SavedGradient>(`/projects/${projectId}/gradients`, { method: "POST", body: JSON.stringify(body) }),
+  gradient: (id: string) => request<SavedGradient>(`/gradients/${id}`),
+  updateGradient: (id: string, body: unknown) =>
+    request<SavedGradient>(`/gradients/${id}`, { method: "PATCH", body: JSON.stringify(body) }),
+  deleteGradient: (id: string) => request<null>(`/gradients/${id}`, { method: "DELETE" }),
   share: (slug: string) => request<SharedProject>(`/share/${slug}`)
 };
 

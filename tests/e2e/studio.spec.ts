@@ -25,3 +25,10 @@ test("accessibility workspace reports sampled contrast", async ({ page }) => {
   await expect(page.getByText("LOWEST OF 17 SAMPLES")).toBeVisible();
   await expect(page.getByText(/Endpoint checks are not enough/)).toBeVisible();
 });
+
+test("save shortcut opens the project workflow", async ({ page }) => {
+  await page.goto("/studio");
+  await page.keyboard.press(process.platform === "darwin" ? "Meta+s" : "Control+s");
+  await expect(page.getByRole("heading", { name: /Add .* to a project/ })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Sign in to continue" })).toBeVisible();
+});

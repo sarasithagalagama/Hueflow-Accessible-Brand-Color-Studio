@@ -13,6 +13,7 @@
     "dev:client": "npm run dev -w client",
     "dev:server": "npm run dev -w server",
     "build": "npm run build -w shared && npm run build -w client && npm run build -w server",
+    "build:vercel": "npm run build -w shared && npm run build:vercel -w client && npm run build -w server",
     "typecheck": "npm run typecheck -w shared && npm run typecheck -w client && npm run typecheck -w server",
     "lint": "eslint . --max-warnings=0",
     "test": "npm run test -w shared && npm run test -w client && npm run test -w server",
@@ -31,6 +32,7 @@
     "typescript-eslint": "^8.34.0"
   },
   "engines": {
-    "node": ">=22"
-  }
+    "node": "22.x"
+  },
+  "packageManager": "npm@10.9.2"
 }

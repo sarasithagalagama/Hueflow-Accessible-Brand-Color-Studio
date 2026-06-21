@@ -59,4 +59,15 @@ export interface ProjectSummary {
   tags: string[];
   updatedAt: string;
   gradientCount?: number;
+  previewGradient?: GradientConfig;
+}
+
+export interface SavedGradient {
+  id: string;
+  projectId: string;
+  name: string;
+  config: GradientConfig;
+  tags: string[];
+  createdAt: string;
+  updatedAt: string;
 }
