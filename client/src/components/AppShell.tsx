@@ -30,7 +30,7 @@ export function AppShell() {
     <main><Outlet /></main>
     <footer className="site-footer">
       <p>© 2026 Hueflow. All rights reserved.</p>
-      <p>Designed &amp; Developed by <span>Sarasitha Galagama</span></p>
+      <p>Designed &amp; Developed by <a href="https://www.sarasitha.me/" target="_blank" rel="noreferrer">Sarasitha Galagama</a></p>
     </footer>
   </div>;
 }

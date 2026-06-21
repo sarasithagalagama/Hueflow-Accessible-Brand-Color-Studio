@@ -1,137 +1,432 @@
 # Hueflow
 
-Hueflow is an accessible brand colour and gradient design studio for designers and frontend developers. It brings gradient creation, palette generation, contrast testing, realistic interface previews, project organisation, public sharing, and developer-ready exports into one focused workflow.
+**Hueflow** is an accessible brand colour and gradient design studio for designers, frontend developers, freelancers, students, and small creative teams.
+
+It combines colour exploration, accessibility analysis, realistic interface previews, project organisation, and production-ready exports in one focused workspace.
 
 > Create colour systems that work everywhere.
 
-## Screenshots
+## The idea
 
-Screenshots can be captured from the running application at:
+Colour tools often separate the creative and technical parts of the process. A designer may create a gradient in one application, build a palette elsewhere, test contrast using another website, manually recreate the colours in interface mockups, and then prepare code for development.
 
-- `/studio` — live gradient editor and interface previews
-- `/accessibility` — contrast workbench and palette matrix
-- `/explore` — curated preset gallery
-- `/projects` — authenticated project workspace
+Hueflow brings that entire workflow together:
 
-## Main workflows
+1. Create a gradient or palette.
+2. Refine the colour relationships.
+3. Preview the colours in realistic interfaces.
+4. Test readability and accessibility.
+5. Save the work as a project.
+6. Share it with others.
+7. Export implementation-ready code and assets.
 
-- Build linear, radial, conic, or layered mesh gradients with two to six colour stops.
-- Lock, reorder, rename, and randomise colours; generate harmonies and tonal scales.
-- Preview the system on a website hero, mobile app, social post, poster, component set, or plain canvas.
-- Audit WCAG contrast, sample text contrast across a gradient, and simulate colour-vision deficiencies.
-- Export CSS gradients, CSS variables, Tailwind configuration, JSON tokens, SCSS, SVG, and PNG.
-- Save browser drafts without authentication.
-- Register with secure cookie-based authentication, create projects, save gradients, and share public read-only links.
-- Search and filter 24 original presets.
+The application is designed as a professional creative tool rather than a generic dashboard or gradient gallery.
 
-## Technology
+## Main areas
 
-- React 19, Vite, strict TypeScript, React Router, TanStack Query, Zustand
-- Express 5, Mongoose, MongoDB, Zod, JWT HTTP-only cookies, bcrypt
-- Vitest, React Testing Library, Supertest, MongoDB Memory Server, Playwright
-- CSS design system with light/dark themes and responsive desktop/mobile editor layouts
+### Studio
 
-## Architecture
+The Studio is the main Hueflow workspace and the default application view.
+
+It provides a live gradient canvas with an adjacent control panel. Every change is reflected immediately in the preview.
+
+Supported gradient types:
+
+- Linear gradients
+- Radial gradients
+- Conic gradients
+- Mesh-style gradients built from layered radial gradients
+
+Studio controls include:
+
+- Two to six editable colour stops
+- Native colour picker and validated HEX values
+- Adjustable stop positions
+- Editable semantic colour names
+- Stop locking during randomisation
+- Colour reordering
+- Gradient angle
+- Radial and conic centre positioning
+- Grain and noise
+- Mesh softness
+- Editable gradient name
+- Full-screen preview
+- Reset, undo, and redo
+- Random colour generation
+- Canvas aspect ratios including 16:9, 4:3, 1:1, 9:16, and custom ratios
+
+The current Studio draft is saved in browser storage, allowing visitors to experiment without creating an account and continue after refreshing the page.
+
+### Palette generation
+
+Hueflow treats colours as a reusable system rather than isolated swatches.
+
+Palette tools provide:
+
+- Complementary harmonies
+- Analogous harmonies
+- Triadic harmonies
+- Split-complementary harmonies
+- Monochromatic harmonies
+- Light-to-dark tonal scales
+- Semantic roles such as primary, secondary, accent, surface, and text
+- HEX, RGB, HSL, and OKLCH values
+- Individual colour copying
+
+Colour calculation logic is independent from the interface and shared between the Studio, accessibility analysis, previews, and exports.
+
+### Interface previews
+
+Colours can be inspected in six practical contexts:
+
+- Website hero
+- Mobile application screen
+- Social media post
+- Editorial poster
+- Buttons and interface components
+- Plain gradient background
+
+These previews help users evaluate hierarchy, mood, text readability, and the practical behaviour of a colour system before exporting it.
+
+### Accessibility workspace
+
+The Accessibility workspace analyses foreground and background relationships using WCAG contrast calculations.
+
+It includes:
+
+- Foreground and background colour selection
+- Exact contrast ratio
+- WCAG AA normal-text result
+- WCAG AA large-text result
+- WCAG AAA normal-text result
+- WCAG AAA large-text result
+- Text specimens at multiple sizes
+- Button and link previews
+- Suggested accessible alternatives
+- Full palette contrast matrix
+
+Hueflow also tests text over the active gradient. It samples multiple positions across the gradient and reports the lowest measured contrast ratio and weakest area.
+
+This result is intentionally presented as a conservative design aid. Gradient endpoints alone cannot guarantee readable text across every position or final layout.
+
+Supported colour-vision simulations:
+
+- Protanopia
+- Deuteranopia
+- Tritanopia
+- Achromatopsia
+
+### Explore gallery
+
+Explore contains 24 original Hueflow presets with varied colour combinations, moods, and gradient types.
+
+Users can:
+
+- Search by name, tag, or colour value
+- Filter bright, pastel, dark, warm, cool, monochrome, and accessible presets
+- Sort by newest, popularity, or saved state
+- Copy gradient CSS
+- Copy individual colours
+- Save favourites
+- Open a preset directly in the Studio
+- Progressively load more presets
+
+The preset library avoids copied names and exact colour combinations from existing gradient websites.
+
+### Accounts and authentication
+
+Visitors can use the Studio without signing in. Accounts unlock persistent project organisation and public sharing.
+
+Authentication supports:
+
+- Account registration
+- Sign in
+- Sign out
+- Session restoration
+- Protected project access
+- Friendly validation and error states
+
+Passwords are hashed with bcrypt. Authentication uses a short-lived JWT stored in an HTTP-only cookie rather than browser storage.
+
+### Projects
+
+Authenticated users can organise their colour work into projects.
+
+Project functionality includes:
+
+- Creating projects
+- Attaching the current Studio draft
+- Adding descriptions
+- Adding tags
+- Private or public visibility
+- Recently updated project lists
+- Project deletion with confirmation
+- Saving multiple gradients
+- Project duplication through the API
+
+Ownership is enforced by the server. The application never trusts a user identifier supplied by the browser.
+
+### Public sharing
+
+Public projects receive a unique read-only share link.
+
+Shared project pages display:
+
+- Project name
+- Creator
+- Large gradient presentation
+- Palette swatches
+- Colour names and values
+- Developer token preview
+- CSS variable copying
+- Duplicate-to-Studio action
+
+Private projects are never returned through the public sharing route.
+
+### Export system
+
+Hueflow converts colour systems into practical design and development formats.
+
+Available exports:
+
+- CSS gradient
+- CSS custom properties
+- Tailwind theme configuration
+- JSON design tokens
+- SCSS variables
+- SVG
+- PNG
+
+Exports use clean filenames derived from the gradient name and provide copy or download feedback.
+
+Mesh gradients are clearly represented as layered radial CSS because CSS does not currently provide a native mesh-gradient primitive.
+
+## Colour engine
+
+The shared colour engine provides:
+
+- HEX normalisation
+- HEX and RGB conversion
+- RGB and HSL conversion
+- OKLCH representation
+- Relative luminance
+- WCAG contrast ratio
+- Colour interpolation
+- Gradient generation
+- Gradient sampling
+- Harmony generation
+- Tonal scale generation
+- Accessible colour suggestions
+- Colour-vision simulation
+- Best foreground-colour selection
+- Export generation
+- Public slug generation
+
+Keeping this logic separate from React components makes the calculations reusable and independently testable.
+
+## User experience and accessibility
+
+Hueflow targets a compact, professional editor experience with a bright editorial visual direction.
+
+Interface characteristics:
+
+- Light and dark themes
+- Responsive desktop, tablet, and mobile layouts
+- Canvas-first mobile experience
+- Visible keyboard focus
+- Semantic HTML
+- Labelled controls
+- Keyboard-operable actions
+- ARIA live feedback for copy and save actions
+- Reduced-motion support
+- Destructive-action confirmation
+- Loading, empty, and error states
+- No critical hover-only controls
+- A 12px minimum text size
+
+Keyboard shortcuts:
+
+- `R` — randomise unlocked colours
+- `Ctrl/Cmd + Z` — undo
+- `Ctrl/Cmd + Shift + Z` — redo
+
+## Technology stack
+
+### Frontend
+
+- React 19
+- TypeScript in strict mode
+- Vite
+- React Router
+- TanStack Query
+- Zustand
+- React Hook Form-compatible validation architecture
+- Zod
+- Lucide React
+- Custom responsive CSS design system
+
+### Backend
+
+- Node.js
+- Express 5
+- TypeScript
+- MongoDB
+- MongoDB Atlas
+- Mongoose
+- Zod request validation
+- JWT authentication
+- HTTP-only cookies
+- bcrypt password hashing
+- Helmet
+- CORS
+- Cookie Parser
+- Express Rate Limit
+
+### Testing
+
+- Vitest
+- React Testing Library
+- Supertest
+- MongoDB Memory Server
+- Playwright
+
+Tests cover colour calculations, gradients, export syntax, component updates, validation, authentication cookies, protected routes, project creation, public sharing, private-project rejection, draft persistence, preset loading, and desktop/mobile workflows.
+
+## Application architecture
+
+Hueflow is organised as a workspace-based MERN monorepo:
 
 ```text
-client/  React application, central API client, Studio state, pages and reusable UI
-server/  Express app/server split, Mongoose models, validation, auth and REST routes
-shared/  Zod contracts, domain types, colour maths, gradients, exports and presets
+client/
+  src/
+    api/          Central API communication
+    components/   Shared application UI
+    features/     Studio-specific features
+    hooks/        Authentication and reusable hooks
+    pages/        Route-level screens
+    stores/       Studio state and draft persistence
+    styles/       Application design system
+
+server/
+  src/
+    config/       Environment and database configuration
+    middleware/   Authentication, validation, and errors
+    models/       Mongoose schemas and indexes
+    routes/       Versioned REST API behaviour
+    utils/        Server utilities
+    app.ts        Express application
+    server.ts     HTTP and database startup
+
+shared/
+  src/
+    colour.ts     Colour conversion and accessibility maths
+    gradient.ts   Gradient generation and sampling
+    export.ts     Developer export generation
+    presets.ts    Original preset library
+    schemas.ts    Shared Zod contracts
+    types.ts      Shared domain types
 ```
 
-Colour calculations and export generators live in `shared`, separate from React. The Express application is exported independently from HTTP startup so Supertest can import it without opening a port. User identity always comes from the verified JWT; client-supplied owner IDs are ignored.
+The client uses a central API layer rather than placing network requests inside presentation components. TanStack Query manages server state, while Zustand manages the interactive Studio history and local draft.
 
-### Data model and indexes
+The Express application is separated from server startup so API tests can import it without opening a network port.
 
-- `User`: unique normalised email; password hash excluded by default.
-- `Project`: owner reference, unique public slug, bounded tags; indexes on `(owner, updatedAt)` and `(visibility, updatedAt)`.
-- `Gradient`: project and owner references, validated mode fields, bounded embedded colour stops; indexes on project/owner update lists.
-- `Favourite`: compound unique index on `(user, targetType, target)`.
+## Data model
 
-Deleting a project explicitly deletes its gradients and gradient favourites. Public sharing queries require `visibility: public`; private projects never resolve through `/api/share/:slug`.
+### User
 
-## Local setup
+Stores:
 
-Requirements: Node.js 22+, npm 10+, and MongoDB 7+ (or a MongoDB Atlas connection).
+- Name
+- Normalised unique email
+- Secure password hash
+- Optional profile image
+- Creation and update timestamps
 
-```bash
-npm install
-copy .env.example .env
-npm run dev
-```
+Password hashes are excluded from normal database queries and API responses.
 
-Open:
+### Project
 
-- Client: http://localhost:5173
-- API health: http://localhost:5000/api/health
+Stores:
 
-The Vite development server proxies `/api` to the Express server.
+- Owner reference
+- Project name
+- Unique public slug
+- Description
+- Private or public visibility
+- Bounded tags
+- Creation and update timestamps
 
-### MongoDB Atlas
+Indexes support owner project lists, recent updates, public filtering, and share-link lookup.
 
-1. Create a cluster and database user in Atlas.
-2. Add your current IP address to Network Access.
-3. Put the connection string in `MONGODB_URI`.
-4. Use a long random value (at least 32 characters) for `JWT_ACCESS_SECRET`.
-5. Do not place secrets in `VITE_` variables.
+### Gradient
 
-The read-only preset library ships in the shared package. `npm run seed` verifies the preset count and database connection; user-generated data remains untouched.
+Stores:
 
-## Environment variables
+- Project and owner references
+- Name and gradient type
+- Angle and centre position
+- Grain and softness
+- Aspect ratio
+- Two to six embedded colour stops
+- Semantic stop names
+- HEX values
+- Positions and lock states
+- Tags and save count
+- Creation and update timestamps
 
-Server (`.env` at the repository root):
+### Favourite
 
-```text
-NODE_ENV=development
-PORT=5000
-MONGODB_URI=mongodb://127.0.0.1:27017/hueflow
-JWT_ACCESS_SECRET=replace-with-a-long-random-secret-at-least-32-characters
-JWT_ACCESS_EXPIRES_IN=15m
-CLIENT_URL=http://localhost:5173
-COOKIE_NAME=hueflow_access
-```
+Stores a user, target, and target type. A compound unique index prevents the same item from being favourited twice by one user.
 
-Client (`client/.env`, optional in local development):
+## API capabilities
 
-```text
-VITE_API_URL=/api
-```
+The REST API provides:
 
-## Commands
+- Registration, login, logout, and session restoration
+- Protected project creation, reading, editing, deletion, and duplication
+- Gradient creation, reading, editing, and deletion
+- Explore search, filters, sorting, and pagination
+- Favourite creation and removal
+- Public read-only project sharing
+- Health reporting
 
-```bash
-npm run dev
-npm run dev:client
-npm run dev:server
-npm run build
-npm run typecheck
-npm run lint
-npm test
-npm run test:e2e
-npm run seed
-```
+All request bodies are validated with Zod. Resource identifiers are checked before querying MongoDB, ownership is enforced server-side, and API responses use a consistent structured format.
 
-API tests use `mongodb-memory-server`; they never touch a development or production database.
+## Security approach
 
-## Deployment
+- Passwords are never stored in plain text.
+- JWTs are never stored in local or session storage.
+- Authentication cookies are HTTP-only.
+- Login failures do not reveal whether an email address exists.
+- Authentication routes use stricter rate limiting.
+- MongoDB updates use explicitly selected fields.
+- Request objects are validated before database queries.
+- Private project data is excluded from public routes.
+- Password hashes, internal error stacks, and server secrets are never returned to clients.
 
-Build the client with `npm run build -w client` and deploy `client/dist` to Vercel, Netlify, or Cloudflare Pages. Configure an SPA rewrite to `index.html` for application routes while preserving real asset 404s.
+## Brand and visual direction
 
-Build the API with `npm run build -w server` and start it with `npm run start -w server` on Render, Railway, or another Node host. Configure:
+Hueflow uses a custom visual identity built around an expressive ribbon-shaped “h” mark and a multicolour gradient.
 
-- `NODE_ENV=production`
-- Atlas `MONGODB_URI`
-- a production `JWT_ACCESS_SECRET`
-- the exact deployed frontend URL in `CLIENT_URL`
-- a health check at `/api/health`
+The interface combines:
 
-When frontend and API use different sites, cookies are sent with `Secure; SameSite=None`; both fetch and CORS credentials are enabled. Prefer sibling subdomains under one registrable domain where possible.
+- Bright editorial typography
+- Compact professional controls
+- Purposeful use of gradients
+- Restrained border radii
+- Strong contrast and spacing
+- Warm neutral application surfaces
+- A responsive light and dark theme
 
-Update `client/public/sitemap.xml` and canonical deployment URLs before launch.
+Gradients are used to demonstrate the product itself rather than as unrelated decoration.
 
-## Known limitations
+## Project status
 
-- Mesh gradients export as layered radial CSS, SVG/raster representations rather than a native CSS mesh primitive.
-- Gradient contrast is sampled at multiple positions and reports the lowest result; it is a conservative design aid, not a guarantee for every rendered pixel or text placement.
-- Credential authentication is implemented for this portfolio build. A production OAuth provider can be added without changing the cookie session boundary.
-- PNG export currently uses a high-resolution linear canvas rendering; SVG or CSS export preserves richer radial/conic/mesh semantics.
+Hueflow currently provides a complete portfolio-ready implementation of its central workflow:
+
+> Create a colour system, test it, preview it, save it, share it, and export it without leaving the application.
+
+The project was designed and developed by [Sarasitha Galagama](https://www.sarasitha.me/).
+
+© 2026 Hueflow. All rights reserved.
