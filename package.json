@@ -1,0 +1,36 @@
+{
+  "name": "hueflow",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "client",
+    "server",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "concurrently -n client,server -c cyan,magenta \"npm run dev -w client\" \"npm run dev -w server\"",
+    "dev:client": "npm run dev -w client",
+    "dev:server": "npm run dev -w server",
+    "build": "npm run build -w shared && npm run build -w client && npm run build -w server",
+    "typecheck": "npm run typecheck -w shared && npm run typecheck -w client && npm run typecheck -w server",
+    "lint": "eslint . --max-warnings=0",
+    "test": "npm run test -w shared && npm run test -w client && npm run test -w server",
+    "test:e2e": "playwright test",
+    "seed": "npm run seed -w server"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.29.0",
+    "@playwright/test": "^1.53.1",
+    "concurrently": "^9.1.2",
+    "eslint": "^9.29.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.2.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.34.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

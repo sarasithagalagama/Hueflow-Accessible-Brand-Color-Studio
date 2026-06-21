@@ -1,0 +1,10 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.local
+playwright-report/
+test-results/
+*.log
+.DS_Store
+client/public/hueflow-export-*.png
